@@ -9,8 +9,9 @@
         <module>enterprise-common</module>
         <module>enterprise-config</module>
         <module>enterprise-eureka</module>
-    <module>enterprise-api-gateway</module>
-  </modules>
+        <module>enterprise-api-gateway</module>
+        <module>enterprise-auth</module>
+    </modules>
 
     <name>enterprise</name>
 
