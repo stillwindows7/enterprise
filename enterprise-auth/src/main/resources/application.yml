@@ -7,11 +7,24 @@ spring:
       server:
         native:
           searchLocations: classpath:/config
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/auth?useUnicode=yes&characterEncoding=UTF-8&autoReconnect=true&useSSL=false
+    username: root
+    password: 123456Ab
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+    hibernate:
+      naming:
+        strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    show-sql: true
+  redis:
+    host: localhost
+    port: 6379
 
----
-spring:
-  profiles: 
-    active: native
 eureka:
   client:
     serverUrl:
