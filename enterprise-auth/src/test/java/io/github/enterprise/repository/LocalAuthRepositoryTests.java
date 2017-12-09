@@ -1,5 +1,7 @@
 package io.github.enterprise.repository;
 
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
 import io.github.enterprise.model.LocalAuth;
 import io.github.enterprise.model.User;
 import org.junit.After;
@@ -9,7 +11,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
 import java.util.Optional;
 
@@ -18,6 +24,11 @@ import java.util.Optional;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
+@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class,
+        TransactionalTestExecutionListener.class,
+        DbUnitTestExecutionListener.class})
+@DatabaseSetup("/META-INF/dbtest/local_auth_sample_data.xml")
 public class LocalAuthRepositoryTests {
 
     @Autowired
@@ -28,16 +39,7 @@ public class LocalAuthRepositoryTests {
 
     @Before
     public void setUp() {
-        User sheldon = new User();
-        sheldon.setNickname("Sheldon Chen");
 
-        LocalAuth sheldonAuth = new LocalAuth();
-        sheldonAuth.setUsername("sheldonchen");
-        sheldonAuth.setPassword("123456Ab");
-
-        sheldon.setLocalAuth(sheldonAuth);
-
-        this.userRepository.save(sheldon);
     }
 
     @After
