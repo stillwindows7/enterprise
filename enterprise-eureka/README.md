@@ -80,7 +80,7 @@ Netflix 主要是在 AWS 中使用 Eureka 的，虽然同时也支持本地环�
 
 实际工作中，我们很少会直接使用 Eureka，因为 Spring Cloud 已经把 Eureka 与 Spring Boot 进行了集成，使用起来更为简单，所以我们使用 Spring Cloud 作为示例。
 
-这里是官方提供的一个示例：[spring-cloud-eureka-example](https://github.com/wuqiangxjtu/spring-cloud-eureka-example)
+这里是官方提供的一个示例：[spring-cloud-eureka-example](https://github.com/ExampleDriven/spring-cloud-eureka-example)
 
 
 ### 启动 Eureka Server
