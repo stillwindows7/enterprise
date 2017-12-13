@@ -12,10 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import io.github.enterprise.model.User;
 import io.github.enterprise.service.AccessTokenService;
@@ -48,7 +45,7 @@ public class AuthController {
 	
 	@SuppressWarnings("unchecked")
 	@ApiOperation(value = "用户登录接口", notes = "使用账号和密码进行登录")    
-    @RequestMapping(value = "/login", method = { RequestMethod.POST }) 
+    @PostMapping(value = "/login")
 	public JsonResult<String> login(@Valid @RequestBody LocalAuthVO localAuthVo, @ApiIgnore BindingResult errors, HttpServletRequest request) {
 		Assert.newErrorsProcess(errors);
 		
