@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+    <local_auth id="1" username="sheldonchen" password="123456Ab" />
+
+    <users id="1" nickname="Sheldon Chen" local_auth_id="1" />
+</dataset>

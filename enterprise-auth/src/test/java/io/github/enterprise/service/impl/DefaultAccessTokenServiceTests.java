@@ -30,7 +30,8 @@ import io.github.enterprise.service.AccessTokenService;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest
-@TestExecutionListeners({DependencyInjectionTestExecutionListener.class,
+@TestExecutionListeners({
+		DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class,
         TransactionalTestExecutionListener.class,
         DbUnitTestExecutionListener.class})
