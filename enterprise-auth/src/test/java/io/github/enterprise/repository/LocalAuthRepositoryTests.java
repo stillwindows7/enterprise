@@ -47,11 +47,27 @@ public class LocalAuthRepositoryTests {
         this.userRepository.deleteAll();
     }
 
+    /**
+     * 当用户名和密码都正确时，应返回正确的对象
+     */
     @Test
-    public void testFindByUsernameAndPassword() {
+    public void testFindByUsernameAndPasswordCorrect() {
         Optional<LocalAuth> sheldonAuthOptional = this.localAuthRepository
                 .findByUsernameAndPassword("sheldonchen", "123456Ab");
         Assert.assertTrue("it should be exist", sheldonAuthOptional.isPresent());
+
+        LocalAuth sheldonAuth = sheldonAuthOptional.get();
+        Assert.assertEquals("sheldon auth id must be equal 1", "1", sheldonAuth.getId());
+    }
+
+    /**
+     * 当用户名或密码不正确时，应返回空结果
+     */
+    @Test
+    public void testFindByUsernameAndPasswordFail() {
+        Optional<LocalAuth> sheldonAuthOptional = this.localAuthRepository
+                .findByUsernameAndPassword("wrong user name", "wrong password");
+        Assert.assertFalse("it should not be exist", sheldonAuthOptional.isPresent());
     }
 
 }
