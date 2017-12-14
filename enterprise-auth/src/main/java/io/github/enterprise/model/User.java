@@ -30,6 +30,14 @@ public class User {
     @Column(name = "lastModified")
     private LocalDate lastModified;
 
+    public User() {
+    }
+
+    public User(String nickname, LocalAuth localAuth) {
+        this.nickname = nickname;
+        this.localAuth = localAuth;
+    }
+
     public String getId() {
         return id;
     }

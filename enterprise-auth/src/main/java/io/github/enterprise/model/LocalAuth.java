@@ -31,6 +31,14 @@ public class LocalAuth {
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "localAuth")
     private User user;
 
+    public LocalAuth() {
+    }
+
+    public LocalAuth(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public String getId() {
         return id;
     }

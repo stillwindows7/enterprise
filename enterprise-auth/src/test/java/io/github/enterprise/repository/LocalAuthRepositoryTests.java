@@ -48,6 +48,27 @@ public class LocalAuthRepositoryTests {
     }
 
     /**
+     * 当用户名正确时，应返回正确的对象
+     */
+    @Test
+    public void testFindByUsernameCorrect() {
+        Optional<LocalAuth> localAuthOptional = this.localAuthRepository.findByUsername("sheldonchen");
+        Assert.assertTrue("it should be exist", localAuthOptional.isPresent());
+
+        LocalAuth localAuth = localAuthOptional.get();
+        Assert.assertEquals("local auth id must be equals 1", "1", localAuth.getId());
+    }
+
+    /**
+     * 当用户名不正确时，应返回空结果
+     */
+    @Test
+    public void testFindByUsernameWrong() {
+        Optional<LocalAuth> localAuthOptional = this.localAuthRepository.findByUsername("wrong user name");
+        Assert.assertFalse("it should not be exist", localAuthOptional.isPresent());
+    }
+
+    /**
      * 当用户名和密码都正确时，应返回正确的对象
      */
     @Test

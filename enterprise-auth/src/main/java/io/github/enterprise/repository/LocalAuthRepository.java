@@ -12,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface LocalAuthRepository extends JpaRepository<LocalAuth, String> {
 
+    Optional<LocalAuth> findByUsername(String username);
+
     Optional<LocalAuth> findByUsernameAndPassword(String username, String password);
 
 }

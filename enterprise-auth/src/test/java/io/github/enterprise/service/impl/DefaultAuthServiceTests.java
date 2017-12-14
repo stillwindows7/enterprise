@@ -51,9 +51,30 @@ public class DefaultAuthServiceTests {
     }
 
     @Test
-    public void testLogin() {
+    public void testLoginSuccess() {
         Optional<User> userOptional = this.authService.login("sheldonchen", "123456Ab");
         Assert.assertTrue("user must be exist", userOptional.isPresent());
+    }
+
+    @Test
+    public void testLoginFail() {
+        Optional<User> userOptional = this.authService.login("wrong user name", "wrong password");
+        Assert.assertFalse("user cannot be exist", userOptional.isPresent());
+    }
+
+    @Test
+    public void testResgisterSuccess() {
+        Optional<User> userOptional = this.authService.register("newuser", "newpassword");
+        Assert.assertTrue("it will register successful", userOptional.isPresent());
+
+        User user = userOptional.get();
+        Assert.assertNotNull("it will be not null", user.getId());
+    }
+
+    @Test
+    public void testRegisterFailWhenTheUsernameIsExist() {
+        Optional<User> userOptional = this.authService.register("sheldonchen", "123456Ab");
+        Assert.assertFalse("it will register fail", userOptional.isPresent());
     }
 
 }

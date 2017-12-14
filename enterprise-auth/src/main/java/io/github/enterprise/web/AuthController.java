@@ -83,13 +83,12 @@ public class AuthController {
 	@ApiOperation(value = "根据 access token 查询用户", notes = "根据 access token 查询用户")
 	@GetMapping(value = "/accesstoken/query/{accessToken}")
 	public JsonResult<UserVO> queryUserByAccessToken(@PathVariable String accessToken) {
-		logger.info("access token: {}", accessToken);
+		logger.debug("access token: {}", accessToken);
 		
 		JsonResult<UserVO> jsonResult = null;
 		Optional<User> userOptional = this.accessTokenService.findByAccessToken(accessToken);
 		if (userOptional.isPresent()) {
 			User user = userOptional.get();
-			
 			UserVO userVO = this.mapperUtils.map(user, UserVO.class);
 			jsonResult = JsonResult.getSuccessResult(userVO, "查询成功");
 		} else {
