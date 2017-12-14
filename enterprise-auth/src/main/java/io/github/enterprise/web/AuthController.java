@@ -96,5 +96,22 @@ public class AuthController {
 		}
 		return jsonResult;
 	}
+
+	@ApiOperation(value = "注册用户方法", notes = "注册用户方法")
+	@PostMapping(value = "/register")
+	public JsonResult<UserVO> register(@Valid @RequestBody LocalAuthVO localAuthVO, @ApiIgnore BindingResult errors, HttpServletRequest request) {
+	    Assert.newErrorsProcess(errors);
+
+	    JsonResult<UserVO> jsonResult = null;
+	    Optional<User> userOptional = this.authService.register(localAuthVO.getUsername(), localAuthVO.getPassword());
+	    if (userOptional.isPresent()) {
+	        User user = userOptional.get();
+	        UserVO userVO = this.mapperUtils.map(user, UserVO.class);
+	        jsonResult = JsonResult.getSuccessResult(userVO, "注册成功");
+		} else {
+	    	jsonResult = JsonResult.getFailResult("注册失败，已存在该用户名");
+		}
+	    return jsonResult;
+	}
 	
 }

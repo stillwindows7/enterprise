@@ -1,5 +1,6 @@
 package io.github.enterprise.web;
 
+import io.github.enterprise.model.LocalAuth;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
@@ -24,6 +26,9 @@ import io.github.enterprise.repository.UserRepository;
 import io.github.enterprise.utils.common.JsonResult;
 import io.github.enterprise.web.request.LocalAuthVO;
 import io.github.enterprise.web.response.UserVO;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by sheldon on 2017/12/13.
@@ -115,7 +120,7 @@ public class AuthControllerTests {
 	@Test
     public void testQueryUserByAccessTokenSuccess() {
     	String url = String.format("/auth/accesstoken/query/%s", this.successResult.getData());
-    	JsonResult<UserVO> jsonResult = this.restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<JsonResult<UserVO>>() {}).getBody();
+        JsonResult<UserVO> jsonResult = this.restTemplate.exchange(url, HttpMethod.GET, null, new ParameterizedTypeReference<JsonResult<UserVO>>() {}).getBody();
         Assert.assertEquals("query user by access token success, it will return 200", "200", jsonResult.getResult());
         Assert.assertNotNull("user cannot be null", jsonResult.getData());
         
@@ -136,4 +141,32 @@ public class AuthControllerTests {
     	Assert.assertNotEquals("query user by access token fail, it will not return 200 again", "200", jsonResult.getResult());
         Assert.assertNull("access token can be false", jsonResult.getData());
     }
+
+    @Test
+    public void testRegisterSuccess() throws Exception {
+        LocalAuthVO localAuthVO = new LocalAuthVO();
+        localAuthVO.setUsername("newuser");
+        localAuthVO.setPassword("newpass");
+
+        RequestEntity<LocalAuthVO> requestEntity = new RequestEntity<>(localAuthVO, HttpMethod.POST, new URI("/auth/register"));
+        JsonResult<UserVO> jsonResult = this.restTemplate.exchange("/auth/register", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResult<UserVO>>() {}).getBody();
+        Assert.assertEquals("register success, it will return 200", "200", jsonResult.getResult());
+        Assert.assertNotNull("user cannot be null", jsonResult.getData());
+
+        UserVO userVO = jsonResult.getData();
+        Assert.assertNotNull("user id will not be null", userVO.getId());
+    }
+
+    @Test
+    public void testRegisterFail() throws Exception {
+        LocalAuthVO localAuthVO = new LocalAuthVO();
+        localAuthVO.setUsername("sheldonchen");
+        localAuthVO.setPassword("123456Ab");
+
+        RequestEntity<LocalAuthVO> requestEntity = new RequestEntity<>(localAuthVO, HttpMethod.POST, new URI("/auth/register"));
+        JsonResult<UserVO> jsonResult = this.restTemplate.exchange("/auth/register", HttpMethod.POST, requestEntity, new ParameterizedTypeReference<JsonResult<UserVO>>() {}).getBody();
+        Assert.assertNotEquals("register fail", "200", jsonResult.getResult());
+        Assert.assertNull("user will be null", jsonResult.getData());
+    }
+
 }
