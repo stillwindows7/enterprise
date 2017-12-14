@@ -41,7 +41,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
      */
     @Override
     public String generateAccessToken(User user) {
-        final String accessToken = SecurityUtils.sha512(String.format("%s:%d:%s", user.getId(), System.currentTimeMillis(), this.secretStr));
+        final String accessToken = String.format("%s:%d:%s", SecurityUtils.sha512(user.getId()), System.currentTimeMillis(), SecurityUtils.sha512(this.secretStr));
         this.stringRedisTemplate.opsForValue().set(accessToken, user.getId(),30, TimeUnit.MINUTES);
         return accessToken;
     }
@@ -57,7 +57,7 @@ public class DefaultAccessTokenService implements AccessTokenService {
         String userId = this.stringRedisTemplate.opsForValue().get(accessToken);
 
         boolean result = false;
-        if (StringUtils.isNotEmpty(userId)) {
+        if (StringUtils.isNotBlank(userId)) {
             result = true;
         }
 
@@ -75,12 +75,9 @@ public class DefaultAccessTokenService implements AccessTokenService {
         Optional<User> userOptional = Optional.empty();
 
         if (this.check(accessToken)) {
-            String[] accessTokenArray = accessToken.split(":");
-            if (accessToken.length() == 3) {
-                String userId = accessTokenArray[0];
-                User user = this.userRepository.findOne(userId);
-                userOptional = Optional.of(user);
-            }
+        	String userId = this.stringRedisTemplate.opsForValue().get(accessToken);
+        	User user = this.userRepository.findOne(userId);
+            userOptional = Optional.of(user);
         }
 
         return userOptional;

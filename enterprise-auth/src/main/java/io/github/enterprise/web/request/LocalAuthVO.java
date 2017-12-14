@@ -1,7 +1,7 @@
 /**
  * 
  */
-package io.github.enterprise.web.req;
+package io.github.enterprise.web.request;
 
 import org.hibernate.validator.constraints.NotBlank;
 

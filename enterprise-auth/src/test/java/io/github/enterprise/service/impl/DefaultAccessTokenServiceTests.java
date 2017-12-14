@@ -1,13 +1,7 @@
 package io.github.enterprise.service.impl;
 
-import com.github.springtestdbunit.DbUnitTestExecutionListener;
-import com.github.springtestdbunit.annotation.DatabaseSetup;
-import io.github.enterprise.AuthServerApplication;
-import io.github.enterprise.model.LocalAuth;
-import io.github.enterprise.model.User;
-import io.github.enterprise.repository.LocalAuthRepository;
-import io.github.enterprise.repository.UserRepository;
-import io.github.enterprise.service.AccessTokenService;
+import java.util.Optional;
+
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -21,7 +15,14 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 
-import java.util.Optional;
+import com.github.springtestdbunit.DbUnitTestExecutionListener;
+import com.github.springtestdbunit.annotation.DatabaseSetup;
+
+import io.github.enterprise.model.LocalAuth;
+import io.github.enterprise.model.User;
+import io.github.enterprise.repository.LocalAuthRepository;
+import io.github.enterprise.repository.UserRepository;
+import io.github.enterprise.service.AccessTokenService;
 
 /**
  * Created by Sheldon on 2017年12月13日
@@ -89,7 +90,7 @@ public class DefaultAccessTokenServiceTests {
      */
     @Test
     public void testCheckFail() {
-        boolean result = this.accessTokenService.check("wrong access token");
+        boolean result = this.accessTokenService.check("wrong_access_token");
         Assert.assertFalse("this access token is not exist", result);
     }
 
