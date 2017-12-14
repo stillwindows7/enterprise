@@ -19,6 +19,7 @@ import org.springframework.stereotype.Component;
  * Created by Sheldon on 2017年12月12日
  *
  */
+@Component
 public class MapperUtils {
 
 	@Autowired

@@ -1,8 +1,8 @@
-package io.github.enterprise.utils.common;
+package io.github.enterprise.config;
 
 import org.dozer.DozerBeanMapper;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * Dozer 配置文件
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Bean;
  * Created by Sheldon on 2017年12月12日
  *
  */
-@EnableAutoConfiguration
+@Configuration
 public class DozerConfig {
 	
     @Bean(name = "org.dozer.Mapper")
